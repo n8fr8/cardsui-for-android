@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        mavenCentral()
+	jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.0'
@@ -9,13 +9,16 @@ buildscript {
 apply plugin: 'android-library'
 
 dependencies {
-    //compile fileTree(dir: 'libs', include: '*.jar')
-    compile 'com.nineoldandroids:library:2.4.0'
+    compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.0.0"
+    buildToolsVersion "22.0.1"
+
+      lintOptions {
+          abortOnError false
+      }
 
     sourceSets {
         main {
@@ -39,5 +42,19 @@ android {
         // by a similar customization.
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
+    }
+}
+
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories.mavenDeployer {
+        def deployPath = file(getProperty('aar.deployPath'))
+        repository(url: "file://${deployPath.absolutePath}")
+        pom.project {
+            groupId 'info.guardianproject'
+            artifactId 'CardsUILib'
+            version "1.0.0"
+        }
     }
 }
