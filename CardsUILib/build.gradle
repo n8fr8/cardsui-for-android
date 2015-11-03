@@ -48,14 +48,3 @@ android {
 
 apply plugin: 'maven'
 
-uploadArchives {
-    repositories.mavenDeployer {
-        def deployPath = file(getProperty('aar.deployPath'))
-        repository(url: "file://${deployPath.absolutePath}")
-        pom.project {
-            groupId 'info.guardianproject'
-            artifactId 'CardsUILib'
-            version "1.0.0"
-        }
-    }
-}
